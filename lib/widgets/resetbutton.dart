@@ -3,11 +3,12 @@ import 'package:get/get.dart';
 import 'package:hangman/controller/controller.dart';
 
 class ResetButtonWidget extends StatelessWidget {
+  final HangmanController hangmanController = Get.put(HangmanController());
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Get.find<HangmanController>().resetGame();
+        hangmanController.resetGame();
       },
       child: const Text(
         'Reset Game',

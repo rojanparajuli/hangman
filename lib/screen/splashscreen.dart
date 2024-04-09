@@ -9,7 +9,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     
     Future.delayed(const Duration(seconds: 2), () {
-      Get.off(const HangmanPage()); 
+      Get.off( HangmanPage()); 
     });
 
     return  Scaffold(

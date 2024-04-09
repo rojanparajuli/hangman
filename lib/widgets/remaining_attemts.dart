@@ -3,14 +3,18 @@ import 'package:get/get.dart';
 import 'package:hangman/controller/controller.dart';
 
 class RemainingAttemptsWidget extends StatelessWidget {
+  const RemainingAttemptsWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetX<HangmanController>(
       init: HangmanController(),
       builder: (hangmanController) {
-        return Text(
-          'Remaining Attempts: ${hangmanController.remainingAttempts}',
-          style: const TextStyle(fontSize: 20),
+        return Center(
+          child: Text(
+            'Remaining Attempts: ${hangmanController.remainingAttempts}',
+            style: const TextStyle(fontSize: 20),
+          ),
         );
       },
     );
