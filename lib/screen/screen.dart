@@ -11,8 +11,10 @@ class HangmanPage extends StatelessWidget {
   final HangmanController hangmanController = Get.put(HangmanController());
   final ConfettiController confettiController = ConfettiController();
 
+
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
         onWillPop: () async {
         bool exit = await showDialog(

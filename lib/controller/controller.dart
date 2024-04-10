@@ -1,32 +1,39 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:confetti/confetti.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class HangmanController extends GetxController {
   late RxString wordToGuess;
   late RxString guessedWord;
   int maxAttempts = 6;
   late RxInt remainingAttempts;
-  late RxInt score; 
+  late RxInt score;
   RxList<String> guessedLetters = <String>[].obs;
   late RxString hint;
   late ConfettiController confettiController;
 
-  // Define scoreKey as a static constant
   static const String scoreKey = 'hangman_score';
+  List<Map<String, dynamic>> map = [];
 
   @override
   void onInit() {
     super.onInit();
+    getPostAPi();
     wordToGuess = ''.obs;
     guessedWord = ''.obs;
     remainingAttempts = 6.obs;
+    hint = ''.obs;
     confettiController = ConfettiController();
-    initializeGuessedWord();
+    Future.delayed(const Duration(seconds: 5), () {
+      return initializeGuessedWord();
+    });
+
     loadScore();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 5), () {
       return showDialogss();
     });
   }
@@ -41,25 +48,23 @@ class HangmanController extends GetxController {
     prefs.setInt(scoreKey, score.value);
   }
 
-  List<Map<String, String>> wordList = [
-    {"word": "FLUTTER", "hint": "my language"},
-    {"word": "PRAYASH", "hint": "smart person"},
-    {"word": "ROJAN", "hint": "garib"},
-    {"word": "BISHAL", "hint": "google ceo"},
-    {"word": "SANDESH", "hint": "gbl don"},
-    {"word": "NITESH", "hint": "elon musk"},
-    {"word": "PUSPHA", "hint": "non-veg"},
-    {"word": "SUKHI", "hint": "singer"},
-    {"word": "MOSAHID", "hint": "Katrina kalf"},
-    {"word": "DIPESH", "hint": "Unmarried"},
-    {"word": "SOVA", "hint": "billionaire"},
-  ];
+  Future getPostAPi() async {
+    final response =
+        await http.get(Uri.parse('https://rojanparajuli.com.np/game.json'));
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return map = List<Map<String, dynamic>>.from(jsonDecode(response.body));
+    } else {
+      return null;
+    }
+  }
 
   void initializeGuessedWord() {
     final random = Random();
-    final index = random.nextInt(wordList.length);
-    wordToGuess.value = wordList[index]["word"]!;
-    hint = wordList[index]["hint"]!.obs;
+    final index = random.nextInt(map.length);
+    wordToGuess.value = map[index]["word"];
+    hint.value = map[index]["hint"];
 
     for (int i = 0; i < wordToGuess.value.length; i++) {
       guessedWord.value += "_";
@@ -109,7 +114,7 @@ class HangmanController extends GetxController {
         }
       }
       if (guessedWord.value == wordToGuess.value) {
-        updateScore(10); 
+        updateScore(10);
         showCongratulationDialog();
       }
     }
@@ -121,13 +126,14 @@ class HangmanController extends GetxController {
   }
 
   void showAttemptsOverDialog() {
-    updateScore(-10); 
+    updateScore(-10);
     showDialog(
       context: Get.context!,
       builder: (context) {
         return AlertDialog(
           title: const Text('Game Over'),
-          content: const Text('Your attempts are over. Do you want to try again?'),
+          content:
+              const Text('Your attempts are over. Do you want to try again?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -178,3 +184,5 @@ class HangmanController extends GetxController {
     super.onClose();
   }
 }
+
+class PostModal {}
