@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hangman/controller/controller.dart';
@@ -7,11 +6,20 @@ import 'package:hangman/widgets/guessword.dart';
 import 'package:hangman/widgets/remaining_attemts.dart';
 import 'package:hangman/widgets/resetbutton.dart';
 import 'package:confetti/confetti.dart';
+import 'package:audioplayers/audioplayers.dart';
 
-class HangmanPage extends StatelessWidget {
+class HangmanPage extends StatefulWidget {
+  const HangmanPage({Key? key}) : super(key: key);
+
+  @override
+  _HangmanPageState createState() => _HangmanPageState();
+}
+
+class _HangmanPageState extends State<HangmanPage> {
   final HangmanController hangmanController = Get.put(HangmanController());
   final ConfettiController confettiController = ConfettiController();
-  final AudioCache audioCache = AudioCache();
+  final AudioPlayer audioPlayer = AudioPlayer();
+  bool isHintPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +64,21 @@ class HangmanPage extends StatelessWidget {
             ],
           ),
         );
-        return exit; // Return false if exit is null
+        return exit;
       },
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            ElevatedButton(onPressed: ()async {
-               final player = AudioPlayer();
-          await player.play(AssetSource('assets/audio/booaudio.mp3'));
-            }, child: Text('Play'))
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isHintPressed = true;
+                  hangmanController.showDialogss();
+                });
+              },
+            icon: Icon(isHintPressed ? Icons.lightbulb : Icons.lightbulb_rounded, color: Colors.amber,),
+              highlightColor: Colors.transparent,
+            ),
           ],
         ),
         body: SafeArea(
@@ -74,6 +88,7 @@ class HangmanPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  
                   Obx(() => Text(
                         'Score: ${hangmanController.score.value}',
                         style: const TextStyle(
@@ -92,7 +107,7 @@ class HangmanPage extends StatelessWidget {
                   if (hangmanController.guessedWord.value ==
                       hangmanController.wordToGuess.value) {
                     confettiController.play();
-                    // audioCache.play('clapaudio.mp3');
+                    _playAudio('assets/audio/clapaudio.mp3');
                     return ConfettiWidget(
                       confettiController: confettiController,
                       blastDirectionality: BlastDirectionality.explosive,
@@ -100,6 +115,7 @@ class HangmanPage extends StatelessWidget {
                       colors: const [Colors.blue, Colors.red, Colors.green],
                     );
                   } else if (hangmanController.remainingAttempts.value == 0) {
+                    _playAudio('assets/audio/booaudio.mp3');
                   }
                   return const SizedBox.shrink();
                 }),
@@ -109,5 +125,9 @@ class HangmanPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _playAudio(String audioPath) async {
+    audioPlayer.play((await AudioCache().load(audioPath)) as Source);
   }
 }
