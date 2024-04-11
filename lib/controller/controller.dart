@@ -139,7 +139,7 @@ class HangmanController extends GetxController {
         return AlertDialog(
           title: const Text('Game Over'),
           content:
-              const Text('Your attempts are over. Do you want to try again?'),
+               Text('Your attempts are over. Right answer is $wordToGuess'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -160,7 +160,7 @@ class HangmanController extends GetxController {
       builder: (context) {
         return AlertDialog(
           title: const Text('Congratulations!'),
-          content: const Text('You have guessed the right answer.'),
+          content:  Text(' $wordToGuess is right answer.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
