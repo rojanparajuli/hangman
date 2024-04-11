@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class HangmanController extends GetxController {
   RxList<String> guessedLetters = <String>[].obs;
   late RxString hint;
   late ConfettiController confettiController;
+  Timer? timer;
 
   static const String scoreKey = 'hangman_score';
   List<Map<String, dynamic>> map = [];
@@ -28,6 +30,9 @@ class HangmanController extends GetxController {
     remainingAttempts = 6.obs;
     hint = ''.obs;
     confettiController = ConfettiController();
+    timer = Timer(const Duration(seconds: 30), () {
+      showTryAgainDialog();
+    });
     Future.delayed(const Duration(seconds: 5), () {
       return initializeGuessedWord();
     });
@@ -124,6 +129,7 @@ class HangmanController extends GetxController {
         showCongratulationDialog();
       }
     }
+    resetTimer(); // Reset the timer after each guess
   }
 
   void updateScore(int value) {
@@ -175,6 +181,27 @@ class HangmanController extends GetxController {
     );
   }
 
+  void showTryAgainDialog() {
+    showDialog(
+      context: Get.context!,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Time\'s Up!'),
+          content:  Text('You took too long to guess. $wordToGuess is correct answer'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Get.back();
+                resetGame();
+              },
+              child: const Text('Try Again'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void resetGame() {
     guessedLetters.value = [];
     guessedLetters.refresh();
@@ -182,11 +209,20 @@ class HangmanController extends GetxController {
     remainingAttempts.value = maxAttempts;
     initializeGuessedWord();
     showDialogss();
+    resetTimer(); // Reset the timer when resetting the game
+  }
+
+  void resetTimer() {
+    timer?.cancel(); // Cancel the previous timer if running
+    timer = Timer(const Duration(seconds: 30), () {
+      showTryAgainDialog();
+    });
   }
 
   @override
   void onClose() {
     confettiController.dispose();
+    timer?.cancel(); // Cancel the timer when the controller is closed
     super.onClose();
   }
 }
