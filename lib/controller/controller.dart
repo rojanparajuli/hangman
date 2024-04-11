@@ -95,6 +95,12 @@ class HangmanController extends GetxController {
   }
 
   void guessLetter(String letter) {
+    // Check if the game is already over
+    if (remainingAttempts.value == 0 || guessedWord.value == wordToGuess.value) {
+      showAttemptsOverDialog();
+      return;
+    }
+
     guessedLetters.add(letter);
     if (!wordToGuess.contains(letter)) {
       if (remainingAttempts.value > 0) {

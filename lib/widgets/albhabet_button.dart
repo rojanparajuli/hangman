@@ -18,7 +18,7 @@ class AlphabetButtonsWidget extends StatelessWidget {
           crossAxisCount: 6,
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 8.0,
-          childAspectRatio: 1
+          // childAspectRatio: 1
         ),
         itemCount: keyboardLayout.length + 1, 
         shrinkWrap: true,

@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
             Lottie.asset('assets/animation.json'),
             const SizedBox(height: 20),
             const Text(
-              'Hangman Game',
+              'Slap Words',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
