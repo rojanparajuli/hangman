@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hangman/screen/screen.dart';
-import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatelessWidget {
 
@@ -19,7 +18,7 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // 
-            Lottie.asset('assets/Animation - 1712598204874.json'),
+            // Lottie.asset('animation.json'),
             const SizedBox(height: 20),
             const Text(
               'Hangman Game',

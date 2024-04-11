@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hangman/controller/controller.dart';
@@ -6,14 +7,11 @@ import 'package:hangman/widgets/guessword.dart';
 import 'package:hangman/widgets/remaining_attemts.dart';
 import 'package:hangman/widgets/resetbutton.dart';
 import 'package:confetti/confetti.dart';
-import 'package:audioplayers/audioplayers.dart';
-
 
 class HangmanPage extends StatelessWidget {
   final HangmanController hangmanController = Get.put(HangmanController());
   final ConfettiController confettiController = ConfettiController();
-  final AudioPlayer clapPlayer = AudioPlayer();
-  final AudioPlayer booPlayer = AudioPlayer();
+  final AudioCache audioCache = AudioCache();
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +59,14 @@ class HangmanPage extends StatelessWidget {
         return exit; // Return false if exit is null
       },
       child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            ElevatedButton(onPressed: ()async {
+               final player = AudioPlayer();
+          await player.play(AssetSource('assets/audio/booaudio.mp3'));
+            }, child: Text('Play'))
+          ],
+        ),
         body: SafeArea(
           child: Stack(
             children: [
@@ -86,7 +92,7 @@ class HangmanPage extends StatelessWidget {
                   if (hangmanController.guessedWord.value ==
                       hangmanController.wordToGuess.value) {
                     confettiController.play();
-                   clapPlayer.play('clapaudio.mp3' as Source);
+                    // audioCache.play('clapaudio.mp3');
                     return ConfettiWidget(
                       confettiController: confettiController,
                       blastDirectionality: BlastDirectionality.explosive,
@@ -94,7 +100,6 @@ class HangmanPage extends StatelessWidget {
                       colors: const [Colors.blue, Colors.red, Colors.green],
                     );
                   } else if (hangmanController.remainingAttempts.value == 0) {
-                    booPlayer.play('booaudio.mp3' as Source);
                   }
                   return const SizedBox.shrink();
                 }),
