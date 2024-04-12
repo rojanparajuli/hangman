@@ -71,10 +71,10 @@ class _HangmanPageState extends State<HangmanPage> {
           actions: [
             IconButton(
               onPressed: () {
-                setState(() {
+               // setState(() {
                   isHintPressed = true;
                   hangmanController.showDialogss();
-                });
+                //});
               },
             icon: Icon(isHintPressed ? Icons.lightbulb : Icons.lightbulb_rounded, color: Colors.amber,),
               highlightColor: Colors.transparent,

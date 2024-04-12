@@ -12,7 +12,7 @@ class HangmanController extends GetxController {
   late RxString guessedWord;
   int maxAttempts = 6;
   late RxInt remainingAttempts;
-  late RxInt score;
+  late RxInt score = 0.obs ;
   RxList<String> guessedLetters = <String>[].obs;
   late RxString hint;
   late ConfettiController confettiController;
@@ -20,6 +20,8 @@ class HangmanController extends GetxController {
 
   static const String scoreKey = 'hangman_score';
   List<Map<String, dynamic>> map = [];
+
+  get itemCount => null;
 
   @override
   void onInit() {
@@ -30,7 +32,7 @@ class HangmanController extends GetxController {
     remainingAttempts = 6.obs;
     hint = ''.obs;
     confettiController = ConfettiController();
-    timer = Timer(const Duration(seconds: 30), () {
+    timer = Timer(const Duration(seconds: 20), () {
       showTryAgainDialog();
     });
     Future.delayed(const Duration(seconds: 5), () {
@@ -126,15 +128,17 @@ class HangmanController extends GetxController {
       }
       if (guessedWord.value == wordToGuess.value) {
         updateScore(10);
+        score.refresh();
+       timer?.cancel();
         showCongratulationDialog();
       }
     }
-    resetTimer(); // Reset the timer after each guess
   }
 
   void updateScore(int value) {
     score.value += value;
     saveScoreToPrefs();
+    score.refresh();
   }
 
   void showAttemptsOverDialog() {
@@ -170,7 +174,7 @@ class HangmanController extends GetxController {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                confettiController.play(); // Start confetti animation
+                confettiController.play(); // Start confetti animation...................
                 Get.back();
               },
               child: const Text('OK'),
@@ -209,12 +213,13 @@ class HangmanController extends GetxController {
     remainingAttempts.value = maxAttempts;
     initializeGuessedWord();
     showDialogss();
-    resetTimer(); // Reset the timer when resetting the game
+    resetTimer(); 
   }
+
 
   void resetTimer() {
     timer?.cancel(); // Cancel the previous timer if running
-    timer = Timer(const Duration(seconds: 30), () {
+    timer = Timer(const Duration(seconds: 20), () {
       showTryAgainDialog();
     });
   }
