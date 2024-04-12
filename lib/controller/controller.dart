@@ -6,17 +6,19 @@ import 'package:get/get.dart';
 import 'package:confetti/confetti.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:audioplayers/audioplayers.dart';
 
 class HangmanController extends GetxController {
   late RxString wordToGuess;
   late RxString guessedWord;
   int maxAttempts = 8;
   late RxInt remainingAttempts;
-  late RxInt score = 0.obs ;
+  late RxInt score = 0.obs;
   RxList<String> guessedLetters = <String>[].obs;
   late RxString hint;
   late ConfettiController confettiController;
   Timer? timer;
+  final player = AudioPlayer();
 
   static const String scoreKey = 'hangman_score';
   List<Map<String, dynamic>> map = [];
@@ -93,7 +95,6 @@ class HangmanController extends GetxController {
               ElevatedButton(
                 onPressed: () {
                   Get.back();
-                  
                 },
                 child: const Text('OK'),
               ),
@@ -102,16 +103,15 @@ class HangmanController extends GetxController {
         );
       },
     );
-    
   }
 
   void guessLetter(String letter) {
     // Check if the game is already over
-    if (remainingAttempts.value == 0 || guessedWord.value == wordToGuess.value) {
+    if (remainingAttempts.value == 0 ||
+        guessedWord.value == wordToGuess.value) {
       showAttemptsOverDialog();
-    } else if (isTimeOut.value){
+    } else if (isTimeOut.value) {
       showTryAgainDialog();
-  
     }
 
     guessedLetters.add(letter);
@@ -136,7 +136,7 @@ class HangmanController extends GetxController {
       if (guessedWord.value == wordToGuess.value) {
         updateScore(10);
         score.refresh();
-       timer?.cancel();
+        timer?.cancel();
         showCongratulationDialog();
       }
     }
@@ -155,8 +155,7 @@ class HangmanController extends GetxController {
       builder: (context) {
         return AlertDialog(
           title: const Text('Game Over'),
-          content:
-               Text('Your attempts are over. Right answer is $wordToGuess'),
+          content: Text('Your attempts are over. Right answer is $wordToGuess'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -177,11 +176,12 @@ class HangmanController extends GetxController {
       builder: (context) {
         return AlertDialog(
           title: const Text('Congratulations!'),
-          content:  Text(' $wordToGuess is right answer.'),
+          content: Text(' $wordToGuess is right answer.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                confettiController.play(); // Start confetti animation...................
+                confettiController
+                    .play(); // Start confetti animation...................
                 Get.back();
               },
               child: const Text('OK'),
@@ -193,21 +193,22 @@ class HangmanController extends GetxController {
   }
 
   void showTryAgainDialog() {
-Get.back(closeOverlays: true);
+    Get.back(closeOverlays: true);
+    playAudio('audio/booaudio.mp3');
+
     showDialog(
       context: Get.context!,
       builder: (context) {
         return AlertDialog(
           title: const Text('Time\'s Up!'),
-          content:  Text('You took too long to guess. $wordToGuess is correct answer'),
+          content: Text(
+              'You took too long to guess. $wordToGuess is correct answer'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                
                 Get.back();
-                
+
                 resetGame();
-                
               },
               child: const Text('Try Again'),
             ),
@@ -218,6 +219,7 @@ Get.back(closeOverlays: true);
   }
 
   void resetGame() {
+    player.pause();
     isTimeOut.value = false;
     guessedLetters.value = [];
     guessedLetters.refresh();
@@ -225,18 +227,15 @@ Get.back(closeOverlays: true);
     remainingAttempts.value = maxAttempts;
     initializeGuessedWord();
     showDialogss();
-    resetTimer(); 
+    resetTimer();
   }
-
 
   void resetTimer() {
     timer?.cancel(); // Cancel the previous timer if running
     timer = Timer(const Duration(seconds: 60), () {
       isTimeOut.value = true;
-    
 
       showTryAgainDialog();
-     
     });
   }
 
@@ -245,6 +244,10 @@ Get.back(closeOverlays: true);
     confettiController.dispose();
     timer?.cancel(); // Cancel the timer when the controller is closed
     super.onClose();
+  }
+
+  void playAudio(String audioPath) async {
+    player.play(AssetSource(audioPath));
   }
 }
 

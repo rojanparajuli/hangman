@@ -8,17 +8,15 @@ import 'package:hangman/widgets/resetbutton.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-class HangmanPage extends StatefulWidget {
-  const HangmanPage({Key? key}) : super(key: key);
+class HangmanPage extends StatelessWidget {
+   HangmanPage({Key? key}) : super(key: key);
 
-  @override
-  _HangmanPageState createState() => _HangmanPageState();
-}
-
-class _HangmanPageState extends State<HangmanPage> {
   final HangmanController hangmanController = Get.put(HangmanController());
+
   final ConfettiController confettiController = ConfettiController();
+
   final AudioPlayer audioPlayer = AudioPlayer();
+
   bool isHintPressed = false;
 
   @override
@@ -107,7 +105,7 @@ class _HangmanPageState extends State<HangmanPage> {
                   if (hangmanController.guessedWord.value ==
                       hangmanController.wordToGuess.value) {
                     confettiController.play();
-                    _playAudio('audio/clapaudio.mp3');
+                   hangmanController.playAudio('audio/clapaudio.mp3');
                     return ConfettiWidget(
                       confettiController: confettiController,
                       blastDirectionality: BlastDirectionality.explosive,
@@ -115,7 +113,7 @@ class _HangmanPageState extends State<HangmanPage> {
                       colors: const [Colors.blue, Colors.red, Colors.green],
                     );
                   } else if (hangmanController.remainingAttempts.value == 0) {
-                    _playAudio('audio/booaudio.mp3');
+                   hangmanController.playAudio('audio/booaudio.mp3');
                   }
                   return const SizedBox.shrink();
                 }),
@@ -127,10 +125,5 @@ class _HangmanPageState extends State<HangmanPage> {
         ),
       ),
     );
-  }
-
-  void _playAudio(String audioPath) async {
-    final player = AudioPlayer();
- player.play(AssetSource(audioPath));
   }
 }
