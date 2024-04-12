@@ -22,6 +22,7 @@ class HangmanController extends GetxController {
   List<Map<String, dynamic>> map = [];
 
   get itemCount => null;
+  var isTimeOut = false.obs;
 
   @override
   void onInit() {
@@ -32,7 +33,7 @@ class HangmanController extends GetxController {
     remainingAttempts = 6.obs;
     hint = ''.obs;
     confettiController = ConfettiController();
-    timer = Timer(const Duration(seconds: 20), () {
+    timer = Timer(const Duration(seconds: 10), () {
       showTryAgainDialog();
     });
     Future.delayed(const Duration(seconds: 5), () {
@@ -41,6 +42,7 @@ class HangmanController extends GetxController {
 
     loadScore();
     Future.delayed(const Duration(seconds: 5), () {
+      initializeGuessedWord();
       return showDialogss();
     });
   }
@@ -91,6 +93,7 @@ class HangmanController extends GetxController {
               ElevatedButton(
                 onPressed: () {
                   Get.back();
+                  
                 },
                 child: const Text('OK'),
               ),
@@ -99,18 +102,22 @@ class HangmanController extends GetxController {
         );
       },
     );
+    
   }
 
   void guessLetter(String letter) {
     // Check if the game is already over
     if (remainingAttempts.value == 0 || guessedWord.value == wordToGuess.value) {
       showAttemptsOverDialog();
-      return;
+    } else if (isTimeOut.value){
+      showTryAgainDialog();
+  
     }
 
     guessedLetters.add(letter);
     if (!wordToGuess.contains(letter)) {
-      if (remainingAttempts.value > 0) {
+      if (remainingAttempts.value > 0 && !isTimeOut.value) {
+        print(isTimeOut.value);
         --remainingAttempts.value;
         if (remainingAttempts.value == 0) {
           showAttemptsOverDialog();
@@ -186,6 +193,7 @@ class HangmanController extends GetxController {
   }
 
   void showTryAgainDialog() {
+Get.back(closeOverlays: true);
     showDialog(
       context: Get.context!,
       builder: (context) {
@@ -195,8 +203,11 @@ class HangmanController extends GetxController {
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                
                 Get.back();
+                
                 resetGame();
+                
               },
               child: const Text('Try Again'),
             ),
@@ -207,6 +218,7 @@ class HangmanController extends GetxController {
   }
 
   void resetGame() {
+    isTimeOut.value = false;
     guessedLetters.value = [];
     guessedLetters.refresh();
     guessedWord.value = '';
@@ -219,8 +231,12 @@ class HangmanController extends GetxController {
 
   void resetTimer() {
     timer?.cancel(); // Cancel the previous timer if running
-    timer = Timer(const Duration(seconds: 20), () {
+    timer = Timer(const Duration(seconds: 10), () {
+      isTimeOut.value = true;
+    
+
       showTryAgainDialog();
+     
     });
   }
 
