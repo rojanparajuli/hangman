@@ -107,7 +107,7 @@ class _HangmanPageState extends State<HangmanPage> {
                   if (hangmanController.guessedWord.value ==
                       hangmanController.wordToGuess.value) {
                     confettiController.play();
-                    _playAudio('assets/audio/clapaudio.mp3');
+                    _playAudio('audio/clapaudio.mp3');
                     return ConfettiWidget(
                       confettiController: confettiController,
                       blastDirectionality: BlastDirectionality.explosive,
@@ -115,19 +115,22 @@ class _HangmanPageState extends State<HangmanPage> {
                       colors: const [Colors.blue, Colors.red, Colors.green],
                     );
                   } else if (hangmanController.remainingAttempts.value == 0) {
-                    _playAudio('assets/audio/booaudio.mp3');
+                    _playAudio('audio/booaudio.mp3');
                   }
                   return const SizedBox.shrink();
                 }),
               ),
             ],
           ),
+          
+          
         ),
       ),
     );
   }
 
   void _playAudio(String audioPath) async {
-    audioPlayer.play((await AudioCache().load(audioPath)) as Source);
+    final player = AudioPlayer();
+ player.play(AssetSource(audioPath));
   }
 }

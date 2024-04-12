@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class HangmanController extends GetxController {
   late RxString wordToGuess;
   late RxString guessedWord;
-  int maxAttempts = 6;
+  int maxAttempts = 8;
   late RxInt remainingAttempts;
   late RxInt score = 0.obs ;
   RxList<String> guessedLetters = <String>[].obs;
@@ -33,7 +33,7 @@ class HangmanController extends GetxController {
     remainingAttempts = 6.obs;
     hint = ''.obs;
     confettiController = ConfettiController();
-    timer = Timer(const Duration(seconds: 10), () {
+    timer = Timer(const Duration(seconds: 60), () {
       showTryAgainDialog();
     });
     Future.delayed(const Duration(seconds: 5), () {
@@ -76,7 +76,7 @@ class HangmanController extends GetxController {
     hint.value = map[index]["hint"];
 
     for (int i = 0; i < wordToGuess.value.length; i++) {
-      guessedWord.value += "_";
+      guessedWord.value += " _ ";
     }
   }
 
@@ -231,7 +231,7 @@ Get.back(closeOverlays: true);
 
   void resetTimer() {
     timer?.cancel(); // Cancel the previous timer if running
-    timer = Timer(const Duration(seconds: 10), () {
+    timer = Timer(const Duration(seconds: 60), () {
       isTimeOut.value = true;
     
 

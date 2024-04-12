@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hangman/controller/controller.dart';
@@ -9,6 +10,7 @@ class ResetButtonWidget extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         hangmanController.resetGame();
+        
       },
       child: const Text(
         'Reset Game',

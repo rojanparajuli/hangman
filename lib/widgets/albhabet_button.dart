@@ -27,17 +27,32 @@ class AlphabetButtonsWidget extends StatelessWidget {
             return SpaceButtonWidget();
           } else {
             String letter = keyboardLayout[index];
-            return ElevatedButton(
-              onPressed: () {
+            return GestureDetector(
+              onTap: (){
                 Get.find<HangmanController>().guessLetter(letter);
               },
-              child: Center(
-                child: Text(
-                  letter,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-            );
+              child: CircleAvatar(
+                backgroundColor: Colors.red[50],
+                child:Text(
+                    
+                    letter,
+                    style: const TextStyle(fontSize: 20),
+                  ), ),
+            )
+            //  ElevatedButton(
+            //   onPressed: () {
+            //     Get.find<HangmanController>().guessLetter(letter);
+            //   },
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(right: 40, ),
+            //     child: Text(
+                  
+            //       letter,
+            //       style: const TextStyle(fontSize: 20),
+            //     ),
+            //   ),
+            // )
+            ;
           }
         },
       ),
@@ -48,13 +63,23 @@ class AlphabetButtonsWidget extends StatelessWidget {
 class SpaceButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Get.find<HangmanController>().guessLetter(' ');
-      },
-      child: const Center(
-        child: Icon(Icons.space_bar),
-      ),
-    );
+    return GestureDetector(
+              onTap: (){
+                 Get.find<HangmanController>().guessLetter(' ');
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.red[50],
+                child:Icon(Icons.space_bar), ),
+            );
+    
+    
+    // ElevatedButton(
+    //   onPressed: () {
+    //     Get.find<HangmanController>().guessLetter(' ');
+    //   },
+    //   child: const Center(
+    //     child: Icon(Icons.space_bar),
+    //   ),
+    // );
   }
 }
