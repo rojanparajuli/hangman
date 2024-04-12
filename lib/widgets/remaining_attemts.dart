@@ -12,8 +12,8 @@ class RemainingAttemptsWidget extends StatelessWidget {
       builder: (hangmanController) {
         return Center(
           child: Text(
-            'Remaining Attempts: ${hangmanController.remainingAttempts}',
-            style: const TextStyle(fontSize: 20),
+            'Remaining Attempts: ${hangmanController.remainingAttempts},',
+            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
           ),
         );
       },

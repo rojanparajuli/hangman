@@ -9,7 +9,7 @@ import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class HangmanPage extends StatelessWidget {
-   HangmanPage({Key? key}) : super(key: key);
+  HangmanPage({Key? key}) : super(key: key);
 
   final HangmanController hangmanController = Get.put(HangmanController());
 
@@ -69,14 +69,18 @@ class HangmanPage extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-               // setState(() {
-                  isHintPressed = true;
-                  hangmanController.showDialogss();
+                // setState(() {
+                isHintPressed = true;
+                hangmanController.showDialogss();
                 //});
               },
-            icon: Icon(isHintPressed ? Icons.lightbulb : Icons.lightbulb_rounded, color: Colors.amber,),
+              icon: Icon(
+                isHintPressed ? Icons.lightbulb : Icons.lightbulb_rounded,
+                color: Colors.amber,
+              ),
               highlightColor: Colors.transparent,
             ),
+            IconButton(onPressed: () {}, icon: Icon(Icons.settings, color: Colors.red.shade100,)),
           ],
         ),
         body: SafeArea(
@@ -86,16 +90,19 @@ class HangmanPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  
                   Obx(() => Text(
                         'Score: ${hangmanController.score.value}',
                         style: const TextStyle(
-                            color: Colors.green, fontWeight: FontWeight.bold),
+                            color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20),
                       )),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   const RemainingAttemptsWidget(),
                   GuessedWordWidget(),
-                  const SizedBox(height: 100,),
+                  const SizedBox(
+                    height: 100,
+                  ),
                   AlphabetButtonsWidget(),
                   ResetButtonWidget(),
                 ],
@@ -105,7 +112,7 @@ class HangmanPage extends StatelessWidget {
                   if (hangmanController.guessedWord.value ==
                       hangmanController.wordToGuess.value) {
                     confettiController.play();
-                   hangmanController.playAudio('audio/clapaudio.mp3');
+                    hangmanController.playAudio('audio/clapaudio.mp3');
                     return ConfettiWidget(
                       confettiController: confettiController,
                       blastDirectionality: BlastDirectionality.explosive,
@@ -113,15 +120,13 @@ class HangmanPage extends StatelessWidget {
                       colors: const [Colors.blue, Colors.red, Colors.green],
                     );
                   } else if (hangmanController.remainingAttempts.value == 0) {
-                   hangmanController.playAudio('audio/booaudio.mp3');
+                    hangmanController.playAudio('audio/booaudio.mp3');
                   }
                   return const SizedBox.shrink();
                 }),
               ),
             ],
           ),
-          
-          
         ),
       ),
     );

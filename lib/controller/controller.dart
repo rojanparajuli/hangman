@@ -35,7 +35,7 @@ class HangmanController extends GetxController {
     remainingAttempts = 6.obs;
     hint = ''.obs;
     confettiController = ConfettiController();
-    timer = Timer(const Duration(seconds: 60), () {
+    timer = Timer(const Duration(seconds: 60000000000000), () {
       showTryAgainDialog();
     });
     Future.delayed(const Duration(seconds: 5), () {
@@ -78,7 +78,7 @@ class HangmanController extends GetxController {
     hint.value = map[index]["hint"];
 
     for (int i = 0; i < wordToGuess.value.length; i++) {
-      guessedWord.value += " _ ";
+      guessedWord.value += "_";
     }
   }
 
@@ -219,12 +219,12 @@ class HangmanController extends GetxController {
   }
 
   void resetGame() {
-    player.pause();
     isTimeOut.value = false;
     guessedLetters.value = [];
     guessedLetters.refresh();
     guessedWord.value = '';
     remainingAttempts.value = maxAttempts;
+    player.pause();
     initializeGuessedWord();
     showDialogss();
     resetTimer();
@@ -232,7 +232,7 @@ class HangmanController extends GetxController {
 
   void resetTimer() {
     timer?.cancel(); // Cancel the previous timer if running
-    timer = Timer(const Duration(seconds: 60), () {
+    timer = Timer(const Duration(seconds: 60000000000000), () {
       isTimeOut.value = true;
 
       showTryAgainDialog();

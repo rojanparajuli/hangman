@@ -1042,19 +1042,6 @@
     {"word": "Attackers", "hint": "Team in Valorant tasked with planting the spike at one of the bomb sites or eliminating the defending team"},
     {"word": "Ultimate Ability", "hint": "Powerful ability unique to each agent in Valorant, earned by charging up over time or through actions"},
     {"word": "Duelists", "hint": "Agent class in Valorant focused on aggressive playstyles and high damage output"},
-    {"word": "Controllers", "hint": "Agent class in Valorant focused on area control and utility abilities to manipulate the battlefield"},
-    {"word": "Sentinels", "hint": "Agent class in Valorant focused on defense and support abilities to aid their team and control engagements"}
-
-
-
-
-
-
-
-
-
-
-
-
-
+    {"word": "Controllers", "hint": "Agent class in Valorant focused on area control and utility abilities to manipulate the battlefield"}
 ]
+
