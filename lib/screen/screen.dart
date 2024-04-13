@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hangman/Tik_tak_to/loading.dart';
 import 'package:hangman/controller/controller.dart';
 import 'package:hangman/widgets/albhabet_button.dart';
 import 'package:hangman/widgets/guessword.dart';
@@ -8,8 +9,9 @@ import 'package:hangman/widgets/resetbutton.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+// ignore: must_be_immutable
 class HangmanPage extends StatelessWidget {
-  HangmanPage({Key? key}) : super(key: key);
+  HangmanPage({super.key});
 
   final HangmanController hangmanController = Get.put(HangmanController());
 
@@ -18,7 +20,7 @@ class HangmanPage extends StatelessWidget {
   final AudioPlayer audioPlayer = AudioPlayer();
 
   bool isHintPressed = false;
-
+  bool ispaused = false;
   @override
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use
@@ -44,7 +46,7 @@ class HangmanPage extends StatelessWidget {
             backgroundColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-              side: const BorderSide(color: Colors.blue, width: 2.0),
+              side: const BorderSide(color: Colors.white, width: 2.0),
             ),
             actions: <Widget>[
               TextButton(
@@ -67,20 +69,40 @@ class HangmanPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-            IconButton(
-              onPressed: () {
-                // setState(() {
-                isHintPressed = true;
-                hangmanController.showDialogss();
-                //});
+            Center(
+              child: IconButton(
+                onPressed: () {
+                  isHintPressed = true;
+                  hangmanController.showDialogss();
+                },
+                icon: Center(
+                  child: Icon(
+                    isHintPressed ? Icons.lightbulb : Icons.lightbulb_rounded,
+                    color: Colors.amber,
+                  ),
+                ),
+                highlightColor: Colors.transparent,
+              ),
+            ),
+            Center(
+                child: IconButton(
+              onPressed:() {
+                Get.to(TictacsplashScreen());
               },
               icon: Icon(
-                isHintPressed ? Icons.lightbulb : Icons.lightbulb_rounded,
+                Icons.settings,
+                color: Colors.red.shade100,
+              ),
+            )),
+            IconButton(
+              onPressed: () {
+                hangmanController.toggleGamePause();
+              },
+              icon: Icon(
+                hangmanController.isGamePaused ? Icons.play_arrow : Icons.pause,
                 color: Colors.amber,
               ),
-              highlightColor: Colors.transparent,
             ),
-            IconButton(onPressed: () {}, icon: Icon(Icons.settings, color: Colors.red.shade100,)),
           ],
         ),
         body: SafeArea(
@@ -93,7 +115,9 @@ class HangmanPage extends StatelessWidget {
                   Obx(() => Text(
                         'Score: ${hangmanController.score.value}',
                         style: const TextStyle(
-                            color: Colors.green, fontWeight: FontWeight.bold, fontSize: 20),
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
                       )),
                   const SizedBox(
                     height: 10,

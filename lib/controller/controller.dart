@@ -19,6 +19,7 @@ class HangmanController extends GetxController {
   late ConfettiController confettiController;
   Timer? timer;
   final player = AudioPlayer();
+   bool isGamePaused = false;
 
   static const String scoreKey = 'hangman_score';
   List<Map<String, dynamic>> map = [];
@@ -68,6 +69,15 @@ class HangmanController extends GetxController {
       return map = List<Map<String, dynamic>>.from(jsonDecode(response.body));
     } else {
       return null;
+    }
+  }
+
+   void toggleGamePause() {
+    isGamePaused = !isGamePaused;
+    if (isGamePaused) {
+      timer?.cancel(); // Pause the timer
+    } else {
+      resetTimer(); // Resume the timer
     }
   }
 
