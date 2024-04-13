@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hangman/Tik_tak_to/tik_tak_screen.dart';
-// import 'package:hangman/screen/screen.dart';
 import 'package:lottie/lottie.dart';
 
 class TictacsplashScreen extends StatelessWidget {
