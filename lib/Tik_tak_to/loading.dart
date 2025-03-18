@@ -4,6 +4,8 @@ import 'package:hangman/Tik_tak_to/tik_tak_screen.dart';
 import 'package:lottie/lottie.dart';
 
 class TictacsplashScreen extends StatelessWidget {
+  const TictacsplashScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {

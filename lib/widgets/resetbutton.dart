@@ -5,20 +5,21 @@ import 'package:hangman/controller/controller.dart';
 
 class ResetButtonWidget extends StatelessWidget {
   final HangmanController hangmanController = Get.put(HangmanController());
+
+  ResetButtonWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-  style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color?>(Colors.red.shade100),
-  ),
-  onPressed: () {
-    hangmanController.resetGame();
-  },
-  child: const Text(
-    'Reset Game',
-    style: TextStyle(fontSize: 20),
-  ),
-);
-
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all<Color?>(Colors.red.shade100),
+      ),
+      onPressed: () {
+        hangmanController.resetGame();
+      },
+      child: const Text(
+        'Reset Game',
+        style: TextStyle(fontSize: 20),
+      ),
+    );
   }
 }
