@@ -9,18 +9,14 @@ import 'package:hangman/widgets/resetbutton.dart';
 import 'package:confetti/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-// ignore: must_be_immutable
 class HangmanPage extends StatelessWidget {
   HangmanPage({super.key});
 
   final HangmanController hangmanController = Get.put(HangmanController());
-
   final ConfettiController confettiController = ConfettiController();
-
   final AudioPlayer audioPlayer = AudioPlayer();
-
-  bool isHintPressed = false;
-  bool ispaused = false;
+ final bool isHintPressed = false;
+ final bool ispaused = false;
   @override
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use
@@ -72,8 +68,9 @@ class HangmanPage extends StatelessWidget {
             Center(
               child: IconButton(
                 onPressed: () {
-                  isHintPressed = true;
                   hangmanController.showDialogss();
+                 // ignore: unused_local_variable
+                 const isHintPressed = true;
                 },
                 icon: Center(
                   child: Icon(
@@ -87,7 +84,7 @@ class HangmanPage extends StatelessWidget {
             Center(
                 child: IconButton(
               onPressed:() {
-                Get.to(TictacsplashScreen());
+                Get.to(const TictacsplashScreen());
               },
               icon: Icon(
                 Icons.settings,

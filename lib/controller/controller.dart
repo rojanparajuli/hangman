@@ -19,7 +19,7 @@ class HangmanController extends GetxController {
   late ConfettiController confettiController;
   Timer? timer;
   final player = AudioPlayer();
-   bool isGamePaused = false;
+  bool isGamePaused = false;
 
   static const String scoreKey = 'hangman_score';
   List<Map<String, dynamic>> map = [];
@@ -63,7 +63,6 @@ class HangmanController extends GetxController {
   Future getPostAPi() async {
     final response =
         await http.get(Uri.parse('https://rojanparajuli.com.np/game.json'));
-    print(response.body);
 
     if (response.statusCode == 200) {
       return map = List<Map<String, dynamic>>.from(jsonDecode(response.body));
@@ -72,12 +71,12 @@ class HangmanController extends GetxController {
     }
   }
 
-   void toggleGamePause() {
+  void toggleGamePause() {
     isGamePaused = !isGamePaused;
     if (isGamePaused) {
-      timer?.cancel(); // Pause the timer
+      timer?.cancel();
     } else {
-      resetTimer(); // Resume the timer
+      resetTimer();
     }
   }
 
@@ -116,7 +115,6 @@ class HangmanController extends GetxController {
   }
 
   void guessLetter(String letter) {
-    // Check if the game is already over
     if (remainingAttempts.value == 0 ||
         guessedWord.value == wordToGuess.value) {
       showAttemptsOverDialog();
@@ -127,7 +125,6 @@ class HangmanController extends GetxController {
     guessedLetters.add(letter);
     if (!wordToGuess.contains(letter)) {
       if (remainingAttempts.value > 0 && !isTimeOut.value) {
-        print(isTimeOut.value);
         --remainingAttempts.value;
         if (remainingAttempts.value == 0) {
           showAttemptsOverDialog();
@@ -190,8 +187,7 @@ class HangmanController extends GetxController {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                confettiController
-                    .play(); // Start confetti animation...................
+                confettiController.play();
                 Get.back();
               },
               child: const Text('OK'),
@@ -241,7 +237,7 @@ class HangmanController extends GetxController {
   }
 
   void resetTimer() {
-    timer?.cancel(); // Cancel the previous timer if running
+    timer?.cancel();
     timer = Timer(const Duration(seconds: 60000000000000), () {
       isTimeOut.value = true;
 
@@ -252,7 +248,7 @@ class HangmanController extends GetxController {
   @override
   void onClose() {
     confettiController.dispose();
-    timer?.cancel(); // Cancel the timer when the controller is closed
+    timer?.cancel();
     super.onClose();
   }
 

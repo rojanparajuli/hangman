@@ -8,6 +8,8 @@ import 'package:confetti/confetti.dart';
 class TiktakScreen extends StatelessWidget {
   final controller = Get.put(GameController());
 
+  TiktakScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     // ignore: deprecated_member_use
@@ -32,7 +34,8 @@ class TiktakScreen extends StatelessWidget {
                     child: GridView.builder(
                       shrinkWrap: true,
                       itemCount: 9,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         mainAxisSpacing: 10.0,
                         crossAxisSpacing: 10.0,
@@ -65,14 +68,16 @@ class TiktakScreen extends StatelessWidget {
                       },
                     ),
                   ),
-    
-                  const SizedBox(height: 30,),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color?>(Colors.red.shade100),
+                          backgroundColor: WidgetStateProperty.all<Color?>(
+                              Colors.red.shade100),
                         ),
                         onPressed: () {
                           controller.resetGame();
@@ -81,7 +86,8 @@ class TiktakScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color?>(Colors.red.shade100),
+                          backgroundColor: WidgetStateProperty.all<Color?>(
+                              Colors.red.shade100),
                         ),
                         onPressed: () {
                           controller.currentPlayer.value = 'X';
@@ -90,7 +96,8 @@ class TiktakScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color?>(Colors.red.shade100),
+                          backgroundColor: WidgetStateProperty.all<Color?>(
+                              Colors.red.shade100),
                         ),
                         onPressed: () {
                           controller.currentPlayer.value = 'O';
@@ -99,7 +106,9 @@ class TiktakScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 50,),
+                  const SizedBox(
+                    height: 50,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Row(
@@ -109,24 +118,34 @@ class TiktakScreen extends StatelessWidget {
                           children: [
                             const Text(
                               'Score X:',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
                             ),
                             Obx(() => Text(
-                              '${controller.scoreX}',
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 50, color: Colors.blue),
-                            )),
+                                  '${controller.scoreX}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 50,
+                                      color: Colors.blue),
+                                )),
                           ],
                         ),
                         Column(
                           children: [
                             const Text(
                               'Score O:',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red),
                             ),
                             Obx(() => Text(
-                              '${controller.scoreO}',
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 50, color: Colors.red),
-                            )),
+                                  '${controller.scoreO}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 50,
+                                      color: Colors.red),
+                                )),
                           ],
                         ),
                       ],

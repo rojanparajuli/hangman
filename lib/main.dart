@@ -7,7 +7,7 @@ void main() {
 }
 
 class HangmanGame extends StatelessWidget {
-  const HangmanGame({Key? key});
+  const HangmanGame({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class HangmanGame extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  SplashScreen(),
+      home:  const SplashScreen(),
     );
   }
 }
